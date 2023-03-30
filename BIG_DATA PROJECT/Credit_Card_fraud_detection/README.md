@@ -8,33 +8,83 @@ With the increasing digitalization and online transactions, it becomes ever so i
 2. To resolve the customer complaints and queries, the support team should be made available with the latest customer details (by constantly keeping them updated).
 
 ##Architectural Diagram
- 
+ <img width="424" alt="image" src="https://user-images.githubusercontent.com/65803264/228842433-6a0e6110-30d3-4b4b-9870-638291ef06dc.png">
 
- 
+<img width="434" alt="image" src="https://user-images.githubusercontent.com/65803264/228842528-54333d67-d797-42f4-b208-8c87c225ab29.png">
+
+##Project explanation in simple terms
+-----------------------------------------
+ step 1:-
+
+in mysql create card transactions table 
+
+download the card transactions dataset and place in hdfs 
+
+then sqoop export to card tansactions table in mysql
+then again do sqoop import to target-dir in hdfs 
+on top of that target-dir create a card transactions external table 
+and again create a card-transactions hive hbase bucketed table.
+and load the data from external table to card transactions hive hbase table
+this is just one time
+
+step 2:-
+
+create a databaase in aws rds
+
+create member details and member score table in RDS 
+
+create external tables in hive for both member score and member details
+
+we will get load the  data to memeber score and member details from aws rds to hdfs using sqoop import every 8 hrs
+
+create hive bucketed tables for memeber score and member details and load the data from external table 
+
+aws rds --> external_tables --> bucketed tables 
+
+
+step 3:-
+
+create a card look up table to quickly get the zip code ,ucl,amount and like these columns to validate the streaming data.
+using card-transaction, member score  we will update the look up table 
+hivehbaseint.scala
+
+step 4:- 
+
+create topics and producers and produce the data
+
+we will connect to the produces and do the validations using look up table parallelly and write the output to card -transactions
+
+
+
+
+airfow
+----------
+aws rds->external table ->bucketed table -> streaming card transactions job
+                                           hivehbaseint.scala 
 
 
 ##Task List:-
-
+-------------
 Task 1:
-Copy “card_transactions.csv” file from local system to HDFS. 
+Copy â€œcard_transactions.csvâ€ file from local system to HDFS. 
 
 
 
 Table creation tasks :
 Task 2:  
-Create the “card_transactions” table in MySQL based on the card_transactions.csv file structure. 
+Create the â€œcard_transactionsâ€ table in MySQL based on the card_transactions.csv file structure. 
 
 Task 3: 
 Do a sqoop export to the database for card_transactions.csv and delete the file from HDFS.
 
 Task 4:
-On “member_score” and “member_details”  create a normal hive external table.
+On â€œmember_scoreâ€ and â€œmember_detailsâ€  create a normal hive external table.
 
 Task 5:
-Create a special  “card_transactions”  Hbase table managed by Hive.
+Create a special  â€œcard_transactionsâ€  Hbase table managed by Hive.
 
 Task 6:
-Create a Hbase “lookup” table with columns - member_id, card_id, UCL, timestamp, zipcode, credit_score.
+Create a Hbase â€œlookupâ€ table with columns - member_id, card_id, UCL, timestamp, zipcode, credit_score.
 
 
 
@@ -91,11 +141,11 @@ Retrieve the timestamp and zipcode of the last transaction of each card.
 Task 18:
 Processing in Spark Streaming - 
 
-Task 19.1 : Validating RULE 1 -> “credit_score > 200”
+Task 19.1 : Validating RULE 1 -> â€œcredit_score > 200â€
 
-Task 19.2 : Validating RULE 2 -> “transaction amount <= UCL”
+Task 19.2 : Validating RULE 2 -> â€œtransaction amount <= UCLâ€
 
-Task 19.3 : Validating RULE 3 -> “zipcode distance within threshold”
+Task 19.3 : Validating RULE 3 -> â€œzipcode distance within thresholdâ€
 
 Task 19:
 Based on the above rules, the entire transaction along with status should be updated in the card_transactions table.
