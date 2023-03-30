@@ -8,9 +8,11 @@ With the increasing digitalization and online transactions, it becomes ever so i
 2. To resolve the customer complaints and queries, the support team should be made available with the latest customer details (by constantly keeping them updated).
 
 ##Architectural Diagram
+
+
  <img width="424" alt="image" src="https://user-images.githubusercontent.com/65803264/228842433-6a0e6110-30d3-4b4b-9870-638291ef06dc.png">
 
-<img width="434" alt="image" src="https://user-images.githubusercontent.com/65803264/228842528-54333d67-d797-42f4-b208-8c87c225ab29.png">
+ <img width="434" alt="image" src="https://user-images.githubusercontent.com/65803264/228842528-54333d67-d797-42f4-b208-8c87c225ab29.png">
 
 ##Project explanation in simple terms
 -----------------------------------------
